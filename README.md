@@ -16,4 +16,6 @@ Usando o Azote para gerenciar os papeis de parede
 
 exec_always --no-startup-id ~/.azotebg &
 
+3- No Wofi busca por "monitor" deve aparecer "Monitor de log wallpaper" para o idioma pt_BR.
+
 ```
