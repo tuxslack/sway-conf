@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name[en_US]=Log Monitor
+Name[pt_BR]=Monitor de log wallpaper
+Comment[en_US]=Monitor the script log in real-time
+Comment[pt_BR]=Monitore o log do script em tempo real
+Exec=xfce4-terminal -T "Monitor de log wallpaper" -e "tail -f /tmp/script_log.txt"
+Icon=utilities-terminal
+Terminal=true
+Type=Application
+Categories=Utility;System;
+Keywords=log;monitor;tail;script;logfile
+StartupNotify=false
+
