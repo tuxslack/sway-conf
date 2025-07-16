@@ -1,5 +1,7 @@
 # sway-conf
-Este repositório contém uma série de configurações personalizadas para o Sway, o gerenciador de janelas para Wayland. 
+
+Este repositório contém uma série de configurações personalizadas para o Sway, o gerenciador 
+de janelas para Wayland. 
 
 
 
@@ -10,8 +12,22 @@ Este repositório contém uma série de configurações personalizadas para o Sw
 
 Script para alterar o papel de parede a cada X minutos no Sway (radomizar wallpapers)
 
+
+Configuração para TODOS os usuários
+
 exec_always --no-startup-id /usr/local/bin/random_wallpaper_sway.sh
 
+
+Configuração individualizada para cada usuário
+
+mkdir -p ~/.config/sway/scripts/
+
+exec_always --no-startup-id sh -c 'cd ~/.config/sway/scripts/ && ./random_wallpaper_sway.sh'
+
+
+Obs: Evite intervalos muito curtos (menos de 5 min).
+
+Ex: INTERVAL=5 em random_wallpaper_sway.sh
 
 
 2- Comenta tudo relacionado ao Azote
