@@ -10,7 +10,7 @@ de janelas para Wayland.
 ```
 1- No arquivo ~/.config/sway/config adiciona:
 
-Script para alterar o papel de parede a cada X minutos no Sway (radomizar wallpapers)
+Script para alterar o papel de parede a cada X minutos no Sway (randomizar wallpapers)
 
 
 Configuração para TODOS os usuários
@@ -32,7 +32,7 @@ Ex: INTERVAL=5 em random_wallpaper_sway.sh
 
 2- Comenta tudo relacionado ao Azote
 
-Usando o Azote para gerenciar os papeis de parede
+Usando o Azote para gerenciar os papéis de parede
 
 exec_always --no-startup-id ~/.azotebg &
 
