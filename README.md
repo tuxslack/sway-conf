@@ -1,6 +1,10 @@
 # sway-conf
 Este repositório contém uma série de configurações personalizadas para o Sway, o gerenciador de janelas para Wayland. 
 
+
+
+![Screenshot of random_wallpaper_sway](usr/share/doc/random_wallpaper_sway/random_wallpaper_sway.png)
+
 ```
 1- No arquivo ~/.config/sway/config adiciona:
 
