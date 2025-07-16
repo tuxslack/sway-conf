@@ -11,6 +11,8 @@ de janelas para Wayland.
 Script para alterar o papel de parede a cada X minutos no Sway (randomizar wallpapers)
 
 
+1-
+
 Configuração para TODOS os usuários
 
 exec_always --no-startup-id sh -c 'pkill -f random_wallpaper_sway.sh; sleep 0.5; /usr/local/bin/random_wallpaper_sway.sh &'
