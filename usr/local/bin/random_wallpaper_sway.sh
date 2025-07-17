@@ -432,20 +432,20 @@ fi
 
 # Antes de executar o swaybg, é necessário garantir que o Sway está rodando.
 
-if ! pgrep -x "sway" > /dev/null; then
+# if ! pgrep -x "sway" > /dev/null; then
 
     # Se o Sway não estiver rodando, você verá a mensagem:
 
-    echo -e "\nErro: O Sway não está em execução. Certifique-se de que o Sway está rodando e tente novamente.\n"
+#     echo -e "\nErro: O Sway não está em execução. Certifique-se de que o Sway está rodando e tente novamente.\n"
 
     # Exibe um diálogo de erro usando yad
 
-    yad --center --image="error" --title "Erro" --text "Erro: O Sway não está em execução. Certifique-se de que o Sway está rodando e tente novamente." --buttons-layout=center --button="Fechar:1" --width="400" --height="150"
+#     yad --center --image="error" --title "Erro" --text "Erro: O Sway não está em execução. Certifique-se de que o Sway está rodando e tente novamente." --buttons-layout=center --button="Fechar:1" --width="400" --height="150"
 
 
-    exit 3
+#     exit 3
 
-fi
+# fi
 
 
 # ----------------------------------------------------------------------------------------
