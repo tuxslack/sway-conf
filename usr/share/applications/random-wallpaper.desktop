@@ -1,0 +1,32 @@
+[Desktop Entry]
+Type=Application
+Name=Random Wallpaper
+Name[pt]=Papel de parede aleatório
+Name[es]=Fondo Aleatorio
+GenericName=Wallpaper Setter
+GenericName[pt]=Alterador de Papel de Parede
+GenericName[es]=Cambiar Fondo
+Comment=Change your Sway wallpaper randomly
+Comment[pt]=Altere seu papel de parede no Sway aleatoriamente
+Comment[es]=Cambia tu fondo en Sway aleatoriamente
+Exec=bash -c '$HOME/.config/sway/scripts/random_wallpaper_sway.sh'
+Icon=preferences-desktop-wallpaper
+Terminal=false
+Categories=Utility;DesktopSettings;
+Keywords=wallpaper;random;sway;fondo;pantalla;papel;paisagem;imagem;imagem de fundo;
+Keywords[pt]=papel de parede;aleatório;sway;imagem;plano de fundo;
+Keywords[es]=fondo;aleatorio;sway;imagen;pantalla;
+StartupNotify=false
+
+# Opcional: Se quiser que o script rode apenas em ambientes gráficos.
+
+OnlyShowIn=sway;
+
+
+# Atualize o banco de dados do menu (opcional):
+
+# update-desktop-database ~/.local/share/applications/
+
+# update-desktop-database /usr/share/applications/
+
+
