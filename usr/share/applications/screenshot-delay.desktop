@@ -1,0 +1,42 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Captura de Tela com Atraso
+Name[pt_BR]=Captura de Tela com Atraso
+Name[en]=Delayed Screenshot
+Name[es]=Captura de Pantalla con Retardo
+
+Comment=Captura a tela inteira após 10 segundos no Wayland
+Comment[pt_BR]=Tira uma captura da tela após 10 segundos no Wayland
+Comment[en]=Takes a screenshot after 10 seconds delay
+Comment[es]=Toma una captura de pantalla después de 10 segundos
+
+# Exec=sh -c 'notify-send "Captura de tela em 10 segundos..." "Prepare-se!"; sleep 10; gnome-screenshot -f "$HOME/Imagens/screenshot_$(date +%%Y%%m%%d_%%H%%M%%S).png"'
+
+Exec=sh -c 'notify-send "Captura de tela em 10 segundos..."; sleep 10; grim $(xdg-user-dir PICTURES)/captura_de_tela-$(date +%%d-%%m-%%Y_%%H-%%M-%%S).png'
+
+Icon=camera-photo
+Terminal=false
+Categories=Utility;Graphics;
+Keywords=screenshot;captura;imagem;retardo;delay;screen;pantalla;imagem;tela;wayland;
+Keywords[pt_BR]=captura;print;imagem;tela;demora;espera;retardo;atraso
+Keywords[en]=screenshot;capture;delay;image;screen;wait
+Keywords[es]=pantalla;captura;demora;imagen;espera;retardo
+
+
+# Versão com internacionalização + palavras-chave
+
+# Suporte a vários idiomas (pt_BR, en, es)
+
+# Palavras-chave para facilitar a busca no menu
+
+# Compatível com Wayland, usando grim (funcional no Wayland)
+
+
+
+# Opcional: Se quiser que o script rode apenas em ambientes gráficos.
+
+# OnlyShowIn=GNOME;KDE;XFCE;LXQt;Cinnamon;MATE;
+
+OnlyShowIn=sway;labwc;
+

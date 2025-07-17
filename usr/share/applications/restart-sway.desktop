@@ -1,0 +1,46 @@
+[Desktop Entry]
+Type=Application
+
+# Nome (título do atalho)
+Name=Reiniciar Sway
+Name[en]=Restart Sway
+Name[es]=Reiniciar Sway
+Name[fr]=Redémarrer Sway
+Name[de]=Sway neu starten
+
+# Nome genérico (exibido em descrições)
+GenericName=Recarrega a configuração do compositor Sway
+GenericName[en]=Reload Sway compositor configuration
+GenericName[es]=Recargar configuración del compositor Sway
+GenericName[fr]=Recharger la configuration de Sway
+GenericName[de]=Sway-Konfiguration neu laden
+
+# Comentário (tooltip ao passar o mouse)
+Comment=Reinicia o gerenciador de janelas Sway e notifica o usuário
+Comment[en]=Reloads the Sway window manager and notifies the user
+Comment[es]=Recarga el gestor de ventanas Sway y notifica al usuario
+Comment[fr]=Recharge le gestionnaire de fenêtres Sway et notifie l'utilisateur
+Comment[de]=Lädt den Sway-Fenstermanager neu und benachrichtigt den Benutzer
+
+# Caminho para o script (ajuste se necessário)
+Exec=/usr/local/bin/restart-sway.sh
+
+# Ícone do sistema (ajustável)
+# Icon=system-reboot
+Icon=/usr/share/icons/extras/Sway.png
+
+Terminal=false
+Categories=Utility;System;
+
+# Palavras-chave para facilitar buscas
+Keywords=reiniciar;sway;compositor;janela;reload;
+Keywords[en]=restart;sway;compositor;window manager;reload;
+Keywords[es]=reiniciar;sway;compositor;gestor de ventanas;recargar;
+Keywords[fr]=redémarrer;sway;compositeur;gestionnaire de fenêtres;recharger;
+Keywords[de]=neu starten;sway;fenstermanager;kompositor;neu laden;
+
+
+# Opcional: Se quiser que o script rode apenas em ambientes gráficos.
+
+OnlyShowIn=sway;
+

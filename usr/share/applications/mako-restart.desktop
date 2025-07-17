@@ -1,0 +1,77 @@
+[Desktop Entry]
+
+# Cria um arquivo .desktop que reiniciar o mako com suporte a múltiplo idiomas e com palavras chaves.
+
+
+# Arquivo .desktop que reinicia o Mako, o daemon de notificações usado em ambientes como o Sway (Wayland), com:
+
+#    Suporte a múltiplos idiomas (traduções de nome e comentário)
+
+#    Palavras-chave para facilitar a busca no menu
+
+#    Execução do comando para reiniciar o mako
+
+
+# Salve esse arquivo em: /usr/share/applications/  ou  ~/.local/share/applications/
+
+# Ele aparecerá no seu menu de aplicativos. Pesquise por "mako", "Notificações", 
+# "Reiniciar", etc., conforme as palavras-chave.
+
+
+# Campo MimeType ausente = não precisa de update-desktop-database
+
+# O arquivo não está usando o campo MimeType=..., então não precisa rodar:
+
+# update-desktop-database /usr/share/applications
+
+# Esse comando só é necessário quando você declara suporte a tipos MIME específicos, como:
+
+# MimeType=application/pdf;image/png;
+
+# No caso, como o .desktop serve apenas para executar um comando de sistema, não precisa 
+# atualizar o cache de MIME.
+
+
+Type=Application
+Name=Restart Mako
+Name[pt]=Reiniciar Mako
+Name[es]=Reiniciar Mako
+Name[fr]=Redémarrer Mako
+Name[de]=Mako neu starten
+Comment=Restart the Mako notification daemon
+Comment[pt]=Reinicia o daemon de notificações Mako
+Comment[es]=Reinicia el daemon de notificaciones Mako
+Comment[fr]=Redémarre le démon de notifications Mako
+Comment[de]=Startet den Mako-Benachrichtigungsdienst neu
+
+# Exec=sh -c "killall -9 mako && mako &"
+
+# Exec=sh -c "killall -9 mako && mako & sleep 1 && notify-send '✅ Mako reiniciado com sucesso!'"
+# bash: !': event not found
+
+Exec=sh -c "killall -9 mako && mako & sleep 1 && notify-send \"✅ Mako reiniciado com sucesso!\""
+
+
+
+Icon=preferences-system-notifications
+Terminal=false
+Categories=System;Utility;
+Keywords=notifications;mako;restart;reload;daemon;
+Keywords[pt]=notificações;mako;reiniciar;recarregar;daemon;
+Keywords[es]=notificaciones;mako;reiniciar;recargar;daemon;
+Keywords[fr]=notifications;mako;redémarrer;recharger;daemon;
+Keywords[de]=benachrichtigungen;mako;neustarten;neu laden;dienst;
+
+# É opcional (Path) e pode ser removida se não for usada. Deixá-la vazia não causa erro, mas é bom manter limpo.
+Path=
+
+StartupNotify=false
+
+
+# Opcional: Se quiser que o script rode apenas em ambientes gráficos.
+
+# OnlyShowIn=GNOME;KDE;XFCE;LXQt;Cinnamon;MATE;
+
+OnlyShowIn=sway;labwc;
+
+

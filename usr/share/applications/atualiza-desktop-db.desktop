@@ -1,0 +1,28 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Atualizar banco de atalhos
+Name[pt_BR]=Atualizar banco de atalhos
+Name[en_US]=Update Desktop Entries Cache
+Name[es]=Actualizar base de accesos directos
+
+Comment=Detecta o usuário gráfico ativo e atualiza caches de atalhos
+Comment[pt_BR]=Detecta o usuário gráfico ativo e atualiza caches de atalhos
+Comment[en_US]=Detects active graphical user and updates .desktop cache
+Comment[es]=Detecta el usuario gráfico activo y actualiza la caché de accesos directos
+
+# Exec=sudo /usr/local/bin/update-desktop-db.sh
+
+Exec=pkexec /usr/local/bin/update-desktop-db.sh
+
+Icon=system-run
+Terminal=true
+Categories=System;Utility;Admin;
+
+Keywords=desktop;update;cache;applications;icons;wofi;rofi
+Keywords[pt_BR]=atalhos;atualizar;ícones;desktop;cache;wofi;rofi
+Keywords[en_US]=shortcuts;update;icons;desktop;cache;wofi;rofi
+Keywords[es]=accesos;actualizar;iconos;escritorio;caché;wofi;rofi
+
+StartupNotify=false
+

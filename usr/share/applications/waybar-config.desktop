@@ -1,0 +1,23 @@
+[Desktop Entry]
+Name=Editar Configuração da Waybar
+Comment=Abrir o arquivo de configuração da Waybar
+Exec=xdg-open .config/waybar/config
+Icon=preferences-system
+Terminal=false
+Type=Application
+Categories=Settings;Utility;
+
+Keywords=waybar;config;sway;barra;status;editar;personalizar;wayland;
+
+# Abrir no menu
+
+# Agora você pode abrir o menu de aplicativos (wofi) e buscar por 
+# "Editar Configuração da Waybar". Ele abrirá diretamente o arquivo ~/.config/waybar/config.
+
+
+# Opcional: Se quiser que o script rode apenas em ambientes gráficos.
+
+# OnlyShowIn=GNOME;KDE;XFCE;LXQt;Cinnamon;MATE;
+
+OnlyShowIn=sway;labwc;
+

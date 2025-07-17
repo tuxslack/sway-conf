@@ -1,0 +1,164 @@
+[Desktop Entry]
+
+# Este arquivo .desktop adiciona um atalho aos menus do sistema para editar as 
+# configurações do Sway, um gerenciador de janelas Wayland inspirado no i3wm.
+
+# As configurações ficam em: ~/.config/sway/config.
+
+
+# Coloque no local apropriado:
+
+# Copie esse arquivo para ~/.local/share/applications/ ou para /usr/share/applications/
+
+# xdg-open é uma maneira mais simples e portátil de abrir arquivos com o editor gráfico 
+# padrão associado ao tipo de arquivo (neste caso, provavelmente um editor de texto para 
+# arquivos .config).
+
+# Com suporte multilíngue para os campos Name e Comment, usando os códigos de idioma 
+# padrão (como pt_BR, en, es, etc.).
+
+
+# https://commons.wikimedia.org/wiki/File%3ASway_Logo%2BText_Ver2.png
+# https://github.com/swaywm/sway
+
+
+Type=Application
+
+Name=Editar configurações do Sway
+Name[en]=Edit Sway Configurations
+Name[pt_BR]=Editar configurações do Sway
+Name[es]=Editar configuraciones de Sway
+Name[fr]=Modifier la configuration de Sway
+Name[de]=Sway-Konfiguration bearbeiten
+
+Comment=Abre o arquivo de configuração do Sway para edição
+Comment[en]=Open Sway configuration file for editing
+Comment[pt_BR]=Abre o arquivo de configuração do Sway para edição.
+Comment[es]=Abre el archivo de configuración de Sway para editarlo
+Comment[fr]=Ouvre le fichier de configuration de Sway pour le modifier
+Comment[de]=Öffnet die Sway-Konfigurationsdatei zur Bearbeitung
+
+
+# O xdg-open pode não funcionar corretamente em ambientes mínimos como o Sway, 
+# especialmente quando usado com wofi (um launcher leve, semelhante ao rofi, para 
+# Wayland). Isso se dá por alguns motivos:
+
+
+# ⚠️ Problemas com xdg-open no Sway:
+
+#     xdg-open depende de um ambiente de desktop (como GNOME, KDE, XFCE), e nem sempre 
+# está bem configurado no Sway.
+
+#     Em muitos casos, ele tenta abrir um navegador ou simplesmente não faz nada se não 
+# houver uma aplicação gráfica associada a arquivos de texto.
+
+#     O xdg-open também não abre terminais automaticamente, o que é necessário se você 
+# usa um editor em terminal.
+
+
+# É possível fazer o xdg-open funcionar no Sway, mas requer algumas configurações manuais, 
+# porque o Sway não é um desktop environment completo, e o xdg-open depende de componentes 
+# como:
+
+#     Um gerenciador de aplicações padrão (como xdg-mime)
+
+#     Um portal como xdg-desktop-portal
+
+#     E um "backend" para Wayland (xdg-desktop-portal-wlr)
+
+
+# Não estava instalados: xdg-desktop-portal e xdg-desktop-portal-wlr
+
+# sudo xbps-install -Suvy xdg-utils xdg-desktop-portal xdg-desktop-portal-wlr
+
+# Name                   Action    Version           New version            Download size
+# xdg-desktop-portal     install   -                 1.20.3_1               418KB 
+# xdg-desktop-portal-wlr install   -                 0.7.1_1                46KB 
+
+
+# Se você usa o Sway sem GNOME/KDE, o xdg-desktop-portal-wlr é o backend correto para o 
+# Wayland.
+
+
+# Isso vai iniciar o serviço de portal manualmente com saída no terminal (modo verbose).
+
+# /usr/libexec/xdg-desktop-portal -v
+
+
+# 💡 Dica: adicionar um link simbólico para facilitar
+
+# sudo ln -s /usr/libexec/xdg-desktop-portal /usr/local/bin/xdg-desktop-portal
+
+# Agora podemos rodar:
+
+# xdg-desktop-portal -v
+
+# Isso é opcional, mas facilita o uso em ambientes que esperam o binário no PATH.
+
+
+# O problema não é do xdg-open em si, e sim de como o caminho ~/.config/sway/config está sendo interpretado.
+
+# Exec=xdg-open ~/.config/sway/config  # ❌ NÃO FUNCIONA
+
+
+# Chamar o Waybar pelo terminal para ver as saídas de erros:
+
+# wofi: unrecognized option '--show-icons'
+# xdg-open: file '~/.config/sway/config' does not exist
+# wofi: unrecognized option '--show-icons'
+
+
+# A versão 1.4.1 do wofi não suporta a opção --show-icons.
+
+# Essa opção foi experimental e removida/ocultada em versões anteriores ou posteriores 
+# dependendo da compilação. Por isso, o erro: wofi: unrecognized option '--show-icons'
+
+
+# ✅ Dica: Definir o editor padrão para arquivos .config
+
+
+# Se quiser usar um editor específico (como gedit, pluma, etc.):
+
+# $ find /usr/share/applications/ -iname pluma.desktop
+# /usr/share/applications/pluma.desktop
+
+
+# xdg-mime default pluma.desktop text/plain
+
+
+
+
+# ✅ FUNCIONA
+
+Exec=xdg-open .config/sway/config
+
+# Path=/home/fernando
+# Path=$HOME
+
+# Icon=ca.desrt.dconf-editor
+Icon=/usr/share/icons/extras/Sway.png
+
+Terminal=false
+StartupNotify=false
+
+Categories=Settings;Utility;
+
+
+# O campo Keywords em um arquivo .desktop permite que o atalho apareça em resultados de 
+# busca ao digitar palavras relacionadas no menu de aplicativos. Podemos incluir termos 
+# como “sway”, “configuração”, “wayland”, “tiling”, etc.
+
+
+Keywords=sway;config;configuração;wayland;tiling;i3;window manager;wm;ajustes;editor;config file;
+Keywords[en]=sway;config;wayland;tiling;i3;window manager;settings;edit;configuration;
+Keywords[pt_BR]=sway;configuração;ajustes;wayland;i3;gerenciador de janelas;editor;
+Keywords[es]=sway;configuración;ajustes;wayland;i3;gestor de ventanas;editor;
+Keywords[fr]=sway;configuration;réglages;wayland;i3;gestionnaire de fenêtres;éditeur;
+Keywords[de]=sway;konfiguration;einstellungen;wayland;i3;fenstermanager;editor;
+
+
+# Opcional: Se quiser que o script rode apenas em ambientes gráficos.
+
+OnlyShowIn=sway;
+
+

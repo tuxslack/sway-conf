@@ -1,0 +1,46 @@
+[Desktop Entry]
+
+# Vamos criar um arquivo .desktop para abrir o arquivo de configuração do Mako 
+# (~/.config/mako/config) em seu editor de texto favorito — e com suporte a múltiplos 
+# idiomas e palavras-chave para facilitar a busca no menu de aplicativos.
+
+
+Type=Application
+
+# Nome do atalho
+Name=Editar configuração do Mako
+Name[en]=Edit Mako Configuration
+Name[es]=Editar configuración de Mako
+Name[fr]=Modifier la configuration de Mako
+Name[de]=Mako-Konfiguration bearbeiten
+
+# Descrição
+Comment=Abre o arquivo de configuração do Mako no editor padrão
+Comment[en]=Opens the Mako configuration file in the default editor
+Comment[es]=Abre el archivo de configuración de Mako en el editor predeterminado
+Comment[fr]=Ouvre le fichier de configuration de Mako dans l'éditeur par défaut
+Comment[de]=Öffnet die Mako-Konfigurationsdatei im Standardeditor
+
+# Comando executado (ajuste seu editor se quiser algo fixo como "gedit", "nano", etc)
+Exec=xdg-open .config/mako/config
+
+# Ícone (use qualquer ícone disponível — ou um personalizado)
+Icon=preferences-system
+
+Terminal=false
+Categories=Settings;Utility;
+
+# Palavras-chave
+Keywords=mako;config;notificação;notificações;ajustes;
+Keywords[en]=mako;config;notifications;settings;
+Keywords[es]=mako;configuración;notificaciones;ajustes;
+Keywords[fr]=mako;configuration;notifications;paramètres;
+Keywords[de]=mako;konfiguration;benachrichtigungen;einstellungen;
+
+
+# Opcional: Se quiser que o script rode apenas em ambientes gráficos.
+
+# OnlyShowIn=GNOME;KDE;XFCE;LXQt;Cinnamon;MATE;
+
+OnlyShowIn=sway;labwc;
+
