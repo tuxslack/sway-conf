@@ -5,14 +5,14 @@
 # Autor:              : Fernando Souza - https://www.youtube.com/@fernandosuporte/
 # Projeto             : sway-conf
 # Script:             : random_wallpaper_sway.sh
-# Descrição           : Script simples para mudar wallpaper do Sway aleatoriamente.
+# Descrição           : Alterar papel de parede aleatoriamente a cada X minutos no Sway.
 # Versão              : 1.0
 # Licença             : MIT
 # Data                : 15/07/2025 11:50:22
 # Data da atualização :
 # Atualização em      : https://github.com/tuxslack/sway-conf
 #
-# Requer              : yad  sway swaybg sed find killall xdg-user-dir shuf sleep grep
+# Requisitos          : yad  sway swaybg sed find killall xdg-user-dir shuf sleep grep
 #
 # ----------------------------------------------------------------------------------------
 
@@ -68,6 +68,30 @@ clear
 # set -e
 # set -u
 # set -x  # Habilite para ver comandos executados
+
+# ----------------------------------------------------------------------------------------
+
+# 🎨 Modos disponíveis para --mode
+
+
+# A opção --mode no swaybg controla como a imagem de fundo (papel de parede) será ajustada 
+# à tela. Ela funciona de forma semelhante ao que você vê em ambientes gráficos como GNOME 
+# ou KDE (estilo "Preencher", "Centralizar", "Expandir", etc.).
+
+
+# Modo                            Descrição
+
+# stretch Estica a imagem para preencher a tela inteira (pode distorcer a imagem).                 - Esticar (pode distorcer)
+# fill    Redimensiona a imagem para preencher a tela sem distorcer (corta partes, se necessário). - Preencher sem distorcer (o mais usado)
+# fit     Redimensiona a imagem para caber na tela sem cortes (pode haver bordas).
+# center  Centraliza a imagem na tela, sem redimensionar. Pode deixar muito espaço ao redor.       - Centralizar sem redimensionar
+# tile    Repete a imagem em mosaico para preencher toda a tela.
+
+# Definir um modo padrão
+
+modo="fill"
+
+# ----------------------------------------------------------------------------------------
 
 
 # Arquivo de log
@@ -142,9 +166,140 @@ log="/tmp/random_wallpaper_sway.log"
 #  Evite intervalos muito curtos (menos de 5 min), pode acabar ficando cansativo ou até 
 # sobrecarregar o sistema dependendo do método usado.
 
-# Declarar o intervalo sem aspas
 
-INTERVAL=5  # Alterar a cada 5 minutos (modifique conforme necessário)
+# Define o intervalo de tempo em minutos.
+
+# Para converter horas em segundos, basta multiplicar o valor por 3600, pois:
+
+#    ✅ 1 hora = 60 minutos × 60 segundos = 3600 segundos
+
+
+tempo=5  # Alterar a cada 5 minutos (modifique conforme necessário)
+
+
+
+# Definindo tempo como 5, e depois multiplicando esse valor por 60 para convertê-lo em 
+# segundos, que é o que o comando sleep usa. Ou seja, 5 * 60 = 300, então o processo vai 
+# "dormir" por 300 segundos — exatamente 5 minutos. ⏳
+
+    # espera=$(echo "$tempo * 60" | bc) # Converte o intervalo para segundos
+
+    # sleep $espera 
+
+    # sleep $(($tempo*60))
+
+
+
+    # Converte para segundos e dorme (Espera)
+
+    # É uma substituição aritmética que multiplica o valor por 60.
+
+    # O sleep sempre espera o tempo em segundos.
+
+tempo=$(($tempo*60))
+
+# O valor da variável $tempo deve esta em minutos para ser multiplicado por 60.
+
+# 1 minuto  =  1 *   60 =   60 segundos
+# 5 minutos =  5 *   60 =  300 segundos
+# 1 hora    = 60 *   60 = 3600 segundos
+# 2 horas   =  2 * 3600 = 7200 segundos
+
+
+# 300 segundos equivalem a:
+
+# 300 ÷ 60 = 5 minutos
+
+
+# Para converter horas em segundos
+
+# 1 hora = 3.600 segundos
+
+# 2 horas = 2 × 3.600 = 7.200 segundos
+
+# 0,5 hora (meia hora) = 0,5 × 3.600 = 1.800 segundos
+
+# ----------------------------------------------------------------------------------------
+
+  # Verifica se o yad esta instalado
+
+  if ! command -v yad >/dev/null 2>&1; then
+
+    echo -e "\n\033[1;31mYad não encontrado.\033[0m\n"
+
+    exit 1
+
+  fi
+
+# ----------------------------------------------------------------------------------------
+
+# Verificar dependências
+
+for cmd in "notify-send" "mako" "sway" "swaybg" "sed" "find" "killall" "xdg-user-dir" "shuf" "sleep" "grep" ; do
+
+    command -v "$cmd" &>/dev/null || {
+
+        echo -e "\n\033[1;31mDependência faltando: $cmd.\033[0m\n"
+
+        yad --center --image="error" --title "Erro" --text "Dependência faltando: $cmd." --buttons-layout=center --button="Fechar:1" --width="400" --height="150"
+
+        exit 1
+
+    }
+
+done
+
+# ----------------------------------------------------------------------------------------
+
+
+# Verifica se o compositor Wayland atual suporta o protocolo layer-shell (necessário para o swaybg);
+
+# Só executa o comando de troca de papel de parede se for compatível;
+
+
+# Verifica se estamos sob uma sessão Wayland
+
+if [ -z "$WAYLAND_DISPLAY" ]; then
+
+    echo -e "\n\033[1;31mErro: Esta sessão não parece ser Wayland. \033[0m\n"
+
+    yad --center --image="error" --title "Erro" --text "Esta sessão não parece ser Wayland." --buttons-layout=center --button="Fechar:1" --width="400" --height="150"
+
+    exit 1
+
+fi
+
+
+# Verifica se o compositor suporta layer-shell
+
+if ! loginctl show-session $(loginctl | grep "$(whoami)" | awk '{print $1}') -p Type | grep -q "wayland"; then
+
+    echo -e "\n\033[1;31mErro: O compositor atual não é compatível com Wayland. \033[0m\n"
+
+    yad --center --image="error" --title "Erro" --text "O compositor atual não é compatível com Wayland." --buttons-layout=center --button="Fechar:1" --width="400" --height="150"
+
+    exit 1
+fi
+
+
+# Lista de compositores conhecidos que funcionam com swaybg
+
+COMPAT_COMP=("sway" "labwc" "wayfire" "Hyprland" "river")
+
+
+# Detecta compositor atual
+
+CURRENT_COMPOSITOR=$(pgrep -a -u "$USER" -f -l "sway|labwc|wayfire|hyprland|river" | awk '{print $2}' | head -n1)
+
+
+if [[ ! " ${COMPAT_COMP[@]} " =~ " ${CURRENT_COMPOSITOR,,} " ]]; then
+
+    echo -e "\n\033[1;31mErro: Compositor '${CURRENT_COMPOSITOR}' não é compatível ou não identificado. \033[0m\n"
+
+    yad --center --image="error" --title "Erro" --text "Compositor '${CURRENT_COMPOSITOR}' não é compatível ou não identificado." --buttons-layout=center --button="Fechar:1" --width="400" --height="150"
+
+    exit 1
+fi
 
 
 # ----------------------------------------------------------------------------------------
@@ -156,9 +311,19 @@ lockfile="/tmp/random_wallpaper_sway.lock"
 
 if [ -e "$lockfile" ]; then
 
-    echo -e "\nJá está rodando $0. Saindo.\n"
+    echo -e "\n\033[1;31mO script $0 já está em execução. Encerrando esse para evitar duplicidade.\n\npkill -f random_wallpaper_sway.sh\033[0m\n"
 
     sleep 1
+
+    echo -e "\nO script $0 já está em execução. Encerrando esse para evitar duplicidade.\n\npkill -f random_wallpaper_sway.sh\n" > "$log"
+
+
+notify-send -i "/usr/share/icons/gnome/256x256/apps/preferences-desktop-wallpaper.png" \
+"Alteração de papel de parede no Sway" \
+"\nO script $0 já está em execução. Encerrando esse para evitar duplicidade.\n\npkill -f random_wallpaper_sway.sh\n"
+
+
+    ps -aux | grep random_wallpaper_sway.sh | grep -v grep | tee -a "$log"
 
     exit 0
 
@@ -216,35 +381,20 @@ trap "rm -f $lockfile" EXIT
 # $ ps aux | grep random_wallpaper_sway.sh | grep -v grep
 # fernando  8699  0.1  0.0   7052  3324 pts/3    S+   20:26   0:00 /bin/bash ./random_wallpaper_sway.sh
 
-# ----------------------------------------------------------------------------------------
-
-  # Verifica se o yad esta instalado
-
-  if ! command -v yad >/dev/null 2>&1; then
-
-    echo -e "\n\033[1;31mYad não encontrado.\033[0m\n"
-
-    exit 1
-
-  fi
 
 # ----------------------------------------------------------------------------------------
 
-# Verificar dependências
+# Verifica se tempo é um número inteiro positivo
 
-for cmd in "sway" "swaybg" "sed" "find" "killall" "xdg-user-dir" "shuf" "sleep" "grep" ; do
+if ! [[ "$tempo" =~ ^[0-9]+$ ]]; then
 
-    command -v "$cmd" &>/dev/null || {
+        echo -e "\n\033[1;31mErro: tempo deve ser um número inteiro positivo representando minutos.\033[0m\n"
 
-        echo -e "\n\033[1;31m$cmd não encontrado.\033[0m\n"
-
-        yad --center --image="error" --title "Erro" --text "$cmd não encontrado." --button="Fechar:1" --width="400" --height="150"
+        yad --center --image="error" --title "Erro" --text "tempo deve ser um número inteiro positivo representando minutos." --buttons-layout=center --button="Fechar:1" --width="600" --height="150"
 
         exit 1
 
-    }
-
-done
+fi
 
 # ----------------------------------------------------------------------------------------
 
@@ -271,7 +421,7 @@ if [ ! -f "$SWAY_CONFIG" ]; then
 
     # Exibe um diálogo de erro usando yad caso o arquivo não exista
 
-    yad --center --image="error" --title "Erro" --text "Erro: O arquivo de configuração do Sway não foi encontrado em $SWAY_CONFIG. Verifique se o Sway está instalado corretamente." --button="Fechar:1" --width="400" --height="150"
+    yad --center --image="error" --title "Erro" --text "Erro: O arquivo de configuração do Sway não foi encontrado em $SWAY_CONFIG. Verifique se o Sway está instalado corretamente." --buttons-layout=center --button="Fechar:1" --width="400" --height="150"
 
     exit 2
 fi
@@ -290,7 +440,7 @@ if ! pgrep -x "sway" > /dev/null; then
 
     # Exibe um diálogo de erro usando yad
 
-    yad --center --image="error" --title "Erro" --text "Erro: O Sway não está em execução. Certifique-se de que o Sway está rodando e tente novamente." --button="Fechar:1" --width="400" --height="150"
+    yad --center --image="error" --title "Erro" --text "Erro: O Sway não está em execução. Certifique-se de que o Sway está rodando e tente novamente." --buttons-layout=center --button="Fechar:1" --width="400" --height="150"
 
 
     exit 3
@@ -371,7 +521,7 @@ rm "$log" 2> /dev/null
 
 echo "
 
-Configurado para altera o papel de parede a cada $INTERVAL minuto(s).
+Configurado para altera o papel de parede a cada $tempo segundo(s).
 
 " > "$log"
 
@@ -471,21 +621,38 @@ while true; do
 # mensagens que contenham "Found config".
 
 
+# Reinicia o swaybg para aplicar o novo wallpaper
+
+
+# Mata instâncias anteriores do swaybg
+
+# Verifica se há um processo exatamente chamado swaybg rodando.
 
 if pgrep -x "swaybg" > /dev/null; then
 
     # Se o swaybg estiver rodando, você verá a mensagem:
 
-    echo -e "\nO swaybg está em execução. Matando...\n"
+    # echo -e "\n\033[1;31mO swaybg está em execução. Matando...\033[0m\n"
+
+    # killall swaybg 2>/dev/null
+
+    # killall -9 swaybg
 
 
-    killall -9 swaybg
+    #🔹 Uso de pkill em vez de killall -9
+
+    # Mais seguro e elegante, permite finalizar o swaybg corretamente com SIGTERM.
+
+    # Envia o sinal TERM para matar o processo swaybg.
+
+    pkill -TERM swaybg
 
 fi
 
-    # Reinicia o swaybg para aplicar o novo wallpaper
 
-    swaybg -o "*" -i "$NEW_WALL" -m fill 2>&1 | grep -v "Found config" &
+    # Define o papel de parede
+
+    swaybg -o "*" -i "$NEW_WALL" -m "$modo" 2>&1 | grep -v "Found config" &
 
 
 
@@ -553,23 +720,10 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
-    # Espera o tempo definido em minutos (INTERVAL)
+    # Espera o tempo
 
-# Definindo INTERVAL como 5, e depois multiplicando esse valor por 60 para convertê-lo em 
-# segundos, que é o que o comando sleep usa. Ou seja, 5 * 60 = 300, então o processo vai 
-# "dormir" por 300 segundos — exatamente 5 minutos. ⏳
+    sleep $tempo
 
-    # espera=$(echo "$INTERVAL * 60" | bc) # Converte o intervalo para segundos
-
-    # sleep $espera 
-
-    # sleep $(($INTERVAL*60))
-
-
-
-    # Espera 1 minuto (60 segundos)
-
-    sleep $(($INTERVAL*60))
 
 done
 
