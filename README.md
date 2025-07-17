@@ -21,9 +21,11 @@ exec_always --no-startup-id sh -c 'pkill -f random_wallpaper_sway.sh; sleep 0.5;
 
 Configuração individualizada para cada usuário
 
-mkdir -p ~/.config/sway/scripts/
+$ mkdir -p ~/.config/sway/scripts/
 
-exec_always --no-startup-id sh -c 'cd ~/.config/sway/scripts/ && pkill -f random_wallpaper_sway.sh; sleep 0.5; ./random_wallpaper_sway.sh &'
+$ cp /usr/local/bin/random_wallpaper_sway.sh ~/.config/sway/scripts/
+
+exec_always --no-startup-id bash -c 'cd ~/.config/sway/scripts/ && killall random_wallpaper_sway.sh ; ./random_wallpaper_sway.sh &'
 
 
 O sleep 0.5 dá um tempo mínimo para pkill fazer efeito antes de iniciar novamente.
